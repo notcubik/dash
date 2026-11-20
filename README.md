@@ -1,71 +1,48 @@
 <div align="center">
 
-<img src="assets/banner.png" alt="Kill Bill — Estructures de Dades i Algorismes" width="100%">
+<img src="assets/banner.png" alt="Kill Bill — Estructures de Dades i Algorísmia" width="100%">
 
 <br>
 
-![C++](https://img.shields.io/badge/C%2B%2B-g%2B%2B-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
-![Jugadors](https://img.shields.io/badge/jugadors-4-FFC400?style=for-the-badge)
-![Rondes](https://img.shields.io/badge/rondes-300-E11D2E?style=for-the-badge)
-![Tauler](https://img.shields.io/badge/tauler-60%C3%9760-2ECC71?style=for-the-badge)
-![FIB-UPC](https://img.shields.io/badge/FIB-UPC-005B99?style=for-the-badge)
+![C++](https://img.shields.io/badge/C%2B%2B-g%2B%2B-FFCD00?style=for-the-badge&logo=cplusplus&logoColor=black&labelColor=0C0C0E)
+![Jugadors](https://img.shields.io/badge/jugadors-4-FFCD00?style=for-the-badge&labelColor=0C0C0E)
+![Rondes](https://img.shields.io/badge/rondes-300-E11D2E?style=for-the-badge&labelColor=0C0C0E)
+![Tauler](https://img.shields.io/badge/tauler-60%C3%9760-FFCD00?style=for-the-badge&labelColor=0C0C0E)
+![FIB-UPC](https://img.shields.io/badge/FIB-UPC-E11D2E?style=for-the-badge&labelColor=0C0C0E)
 
-**Programa una IA que lluiti per completar la venjança abans que les altres tres.**
+**Programa una IA que completi la venjança abans que les altres tres.**
 
-[🎮 Jugar](#-com-fer-lo-funcionar) · [🧠 Crear el jugador](#-crear-el-teu-jugador) · [📤 Enviar](#-enviar-el-jugador) · [🏆 Fases](#-fases-de-la-competició)
+[🎮 Jugar](#jugar) · [🧠 Jugador](#jugador) · [📤 Enviar](#enviar) · [🏆 Fases](#fases) · [⚖️ Normativa](#normes)
 
 </div>
 
----
+<a id="intro"></a>
+<img src="assets/h-intro.png" alt="01 · De què va" width="100%">
 
-## 🥷 De què va
+La Beatrix Kiddo es desperta després de quatre anys en coma amb una sola idea: venjar-se de la Brigada Assassina Mortal de les Víbores. Però al tauler hi ha **quatre còpies de la Beatrix**, cadascuna amb el seu exèrcit, i totes volen ser la primera a acabar la llista.
 
-La Beatrix Kiddo es desperta després de quatre anys en coma amb una sola idea al cap: venjar-se de la Brigada Assassina Mortal de les Víbores. Però al tauler hi ha **quatre còpies de la Beatrix**, cadascuna amb el seu exèrcit, i totes volen ser la primera a acabar la llista.
-
-Tu programes el **cervell** d'una d'elles: cada ronda, el teu codi decideix què fa cada unitat.
+Tu programes el **cervell** d'una d'elles: a cada ronda, el teu codi decideix què fa cada unitat.
 
 <div align="center">
-<img src="assets/board.png" alt="Il·lustració d'un tauler" width="460">
-<br>
-<sub>Il·lustració original d'un tauler (no és una captura real del visor)</sub>
+<img src="assets/llista.png" alt="La llista: O-Ren Ishii, Vernita Green, Budd, Elle Driver i Bill" width="520">
 </div>
-
-### Els elements del joc
 
 | | Element | Què fa |
 |---|---|---|
 | 🥷 | **Beatrix** | La teva unitat principal. Té vida, recull armes i mata enemics. |
-| ⚔️ | **Guerrers** | Unitats secundàries: conquereixen cel·les, agafen medicines i maten guerrers rivals. |
-| 👹 | **Enemics** | O-Ren, Vernita, Budd i Elle (4 còpies de cadascun, una per jugador). Persegueixen els teus guerrers. |
+| ⚔️ | **Guerrers** | Conquereixen cel·les, agafen medicines i maten guerrers rivals. |
+| 👹 | **Enemics** | O-Ren, Vernita, Budd i Elle (una còpia per jugador). Persegueixen els teus guerrers. |
 | 👑 | **Bill** | Únic i neutral. Persegueix la Beatrix més propera. |
-| 🗡️ | **Armes** | Cal tenir l'arma correcta per matar cada enemic. |
+| 🗡️ | **Armes** | Sense l'arma correcta no pots matar l'enemic corresponent. |
 | 💊 | **Medicines** | Recuperen vida de la Beatrix. |
 
-| Enemic | Arma necessària |
-|---|---|
-| O-Ren Ishii | 🗡️ Katana |
-| Vernita Green | 🔪 Ganivet |
-| Budd | 🐍 Serp |
-| Elle Driver | 🥄 Cullera |
-| Bill | 📖 Llibre (i haver mort abans els 4 enemics!) |
-
-### Com es puntua
-
-Al final de cada ronda se sumen punts per:
-
-- 💀 guerrers rivals morts (acumulat)
-- 🟦 cel·les que posseeixes **en aquell moment** (si les perds, baixes!)
-- 🎯 enemics morts per la teva Beatrix
-- 🏅 bonus per matar en Bill
-
-Guanya qui tingui més punts després de la ronda 299. Les constants són a `default.cnf`.
+**Puntuació** (a cada ronda): 💀 guerrers rivals morts · 🟨 cel·les que tens *ara* (si les perds, baixes) · 🎯 enemics morts · 🏅 bonus per matar en Bill. Guanya qui en té més després de la ronda 299.
 
 > [!TIP]
 > Les ordres s'executen en ordre aleatori entre jugadors, però respectant el teu ordre intern. **Dona les ordres de més urgent a menys urgent.**
 
----
-
-## 🚀 Com fer-lo funcionar
+<a id="jugar"></a>
+<img src="assets/h-jugar.png" alt="02 · Com jugar" width="100%">
 
 **Requisits:** `g++` recent, `make` i un navegador modern.
 
@@ -116,7 +93,7 @@ make all
 | `-i default.cnf` | configuració i tauler |
 | `-o default.res` | fitxer de sortida |
 
-**4. Mira-la**: obre `viewer.html` al navegador i carrega `default.res`.
+**4. Mira-la:** obre `viewer.html` al navegador i carrega `default.res`.
 
 ```bash
 ./Game --help    # tots els paràmetres
@@ -124,9 +101,8 @@ make all
 make clean       # neteja executable i objectes
 ```
 
----
-
-## 🧠 Crear el teu jugador
+<a id="jugador"></a>
+<img src="assets/h-jugador.png" alt="03 · Crea el teu jugador" width="100%">
 
 1. Copia la plantilla: `cp AINull.cc AIHattori.cc`
 2. Canvia el nom dins del fitxer:
@@ -148,11 +124,10 @@ make clean       # neteja executable i objectes
 | `AIDemo.cc` | jugador d'exemple |
 
 > [!NOTE]
-> Tot el resum de l'API és a `api.pdf`.
+> El resum complet de l'API és a `api.pdf`.
 
----
-
-## 📤 Enviar el jugador
+<a id="enviar"></a>
+<img src="assets/h-enviar.png" alt="04 · Envia'l al jutge" width="100%">
 
 Puja'l a **[games.jutge.org](https://games.jutge.org)** amb les teves credencials de Jutge.org.
 
@@ -166,13 +141,13 @@ Puja'l a **[games.jutge.org](https://games.jutge.org)** amb les teves credencial
 > - Màxim **1000 ordres per ronda**
 > - Un cop un jugador venç el Dummy, **el seu nom queda bloquejat**: per enviar més versions, canvia'l (p. ex. `Hattori2`)
 
----
-
-## 🏆 Fases de la competició
+<a id="fases"></a>
+<img src="assets/h-fases.png" alt="05 · Fases" width="100%">
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFCD00','primaryTextColor':'#0C0C0E','primaryBorderColor':'#0C0C0E','lineColor':'#E11D2E','fontFamily':'Inter, Arial, sans-serif'}}}%%
 flowchart LR
-    A["🧪 Qualificació<br/>guanyar 4 partides al Dummy"] --> B["⚔️ Eliminatòria<br/>cada ronda cau un jugador"]
+    A["🧪 Qualificació<br/>guanya 4 partides al Dummy"] --> B["⚔️ Eliminatòria<br/>cada ronda cau un jugador"]
     B --> C["🏆 Gran Final<br/>4 semifinals + final"]
 ```
 
@@ -184,9 +159,8 @@ flowchart LR
 
 Qualificar-se garanteix **mínim 5 dels 10 punts**; no qualificar-se, 0. Recorda escollir el teu representant a la pestanya *Players* **abans** de l'eliminatòria.
 
----
-
-## 💡 Consells ràpids
+<a id="normes"></a>
+<img src="assets/h-normes.png" alt="06 · Consells i normativa" width="100%">
 
 - 🎯 Primer, derrota el Dummy. Després ja pensaràs en els companys.
 - 🧩 Comença amb estratègies simples, amb funcions auxiliars petites i provades.
@@ -194,10 +168,6 @@ Qualificar-se garanteix **mínim 5 dels 10 punts**; no qualificar-se, 0. Recorda
 - ⏱️ Vigila el temps de CPU.
 - 👀 Observa partides d'altres per aprendre'n les estratègies.
 - ⏳ **No esperis a l'últim minut** per enviar: el servidor s'embussa.
-
----
-
-## ⚖️ Normativa
 
 > [!CAUTION]
 > La pràctica és **individual**. No donis ni demanis codi, ni tan sols una versió antiga (només es poden compartir arxius objecte `.o`). **Està prohibit usar IA per implementar jugadors.** El plagi implica un **0 a tota l'assignatura** per a tots els involucrats, tant qui copia com qui facilita el codi.
