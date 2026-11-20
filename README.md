@@ -1,5 +1,5 @@
 <div align="center">
-<img src="assets/banner.png" alt="Kill Bill — Estructures de Dades i Algorísmia" width="100%">
+<img src="eda-(q3)/assets/banner.png" alt="Kill Bill — Estructures de Dades i Algorísmia" width="100%">
 </div>
 
 <br>
