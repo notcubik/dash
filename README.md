@@ -1,176 +1,136 @@
 <div align="center">
-
 <img src="assets/banner.png" alt="Kill Bill — Estructures de Dades i Algorísmia" width="100%">
+</div>
 
 <br>
 
-![C++](https://img.shields.io/badge/C%2B%2B-g%2B%2B-FFCD00?style=for-the-badge&logo=cplusplus&logoColor=black&labelColor=0C0C0E)
-![Jugadors](https://img.shields.io/badge/jugadors-4-FFCD00?style=for-the-badge&labelColor=0C0C0E)
-![Rondes](https://img.shields.io/badge/rondes-300-E11D2E?style=for-the-badge&labelColor=0C0C0E)
-![Tauler](https://img.shields.io/badge/tauler-60%C3%9760-FFCD00?style=for-the-badge&labelColor=0C0C0E)
-![FIB-UPC](https://img.shields.io/badge/FIB-UPC-E11D2E?style=for-the-badge&labelColor=0C0C0E)
+<a id="intro"></a>
+<img src="assets/h-intro.png" alt="01 · Què és" width="100%">
 
-**Programa una IA que completi la venjança abans que les altres tres.**
+Notes meves del joc de EDA. Quatre còpies de la Beatrix al mateix tauler, 300 rondes, guanya qui acabi amb més punts. Jo només programo el cervell d'un jugador: el mètode `play()` decideix cada ronda què fa cada unitat meva.
 
-[🎮 Jugar](#jugar) · [🧠 Jugador](#jugador) · [📤 Enviar](#enviar) · [🏆 Fases](#fases) · [⚖️ Normativa](#normes)
-
+<div align="center">
+<img src="assets/llista.png" alt="La llista de cinc noms, amb els quatre primers ratllats" width="520">
 </div>
 
-<a id="intro"></a>
-<img src="assets/h-intro.png" alt="01 · De què va" width="100%">
+<br>
 
-La Beatrix Kiddo es desperta després de quatre anys en coma amb una sola idea: venjar-se de la Brigada Assassina Mortal de les Víbores. Però al tauler hi ha **quatre còpies de la Beatrix**, cadascuna amb el seu exèrcit, i totes volen ser la primera a acabar la llista.
-
-Tu programes el **cervell** d'una d'elles: a cada ronda, el teu codi decideix què fa cada unitat.
-
-
-| | Element | Què fa |
+| | Què | Per què m'importa |
 |---|---|---|
-| 🥷 | **Beatrix** | La teva unitat principal. Té vida, recull armes i mata enemics. |
-| ⚔️ | **Guerrers** | Conquereixen cel·les, agafen medicines i maten guerrers rivals. |
-| 👹 | **Enemics** | O-Ren, Vernita, Budd i Elle (una còpia per jugador). Persegueixen els teus guerrers. |
-| 👑 | **Bill** | Únic i neutral. Persegueix la Beatrix més propera. |
-| 🗡️ | **Armes** | Sense l'arma correcta no pots matar l'enemic corresponent. |
-| 💊 | **Medicines** | Recuperen vida de la Beatrix. |
+| 🥷 | **Beatrix** | L'única que recull armes i ataca enemics. Si mor, desapareix 5 rondes i torna amb la vida plena. |
+| ⚔️ | **Guerrers** | Conquereixen cel·les i agafen medicines. Moren si toquen un enemic meu o en Bill. |
+| 👹 | **Enemics** | 4 tipus, un per jugador. Només persegueixen els guerrers del seu jugador. |
+| 👑 | **Bill** | Únic. Persegueix la Beatrix més propera i mai ataca guerrers. |
+| 🗡️ | **Armes** | Només la meva Beatrix recull les meves. Una vegada recollides, no tornen. |
+| 💊 | **Medicines** | Curen la Beatrix del jugador que l'agafa (guerrers inclosos). |
 
-**Puntuació** (a cada ronda): 💀 guerrers rivals morts · 🟨 cel·les que tens *ara* (si les perds, baixes) · 🎯 enemics morts · 🏅 bonus per matar en Bill. Guanya qui en té més després de la ronda 299.
+Arma que necessito per a cada enemic: O-Ren → katana, Vernita → ganivet, Budd → serp, Elle → cullera, Bill → llibre (i abans he d'haver matat els altres quatre).
 
-> [!TIP]
-> Les ordres s'executen en ordre aleatori entre jugadors, però respectant el teu ordre intern. **Dona les ordres de més urgent a menys urgent.**
+### Punts
+
+Es calculen a cada ronda i sumen: guerrers rivals morts, cel·les que tinc **en aquell moment**, enemics morts i bonus per Bill. Les constants són a `default.cnf`. Si perdo cel·les, la puntuació baixa.
+
+### El que em puc oblidar
+
+- Una unitat només fa **la primera ordre** que li dono cada ronda.
+- Les ordres s'executen en ordre aleatori entre jugadors, però mantenint el meu ordre. Les urgents, primer.
+- Cada moviment s'aplica sobre el tauler que han deixat els anteriors: una medicina pot desaparèixer abans que hi arribi.
+- Un guerer que va cap a un enemic meu o cap a Bill **mor**. Només la Beatrix pot atacar-los.
+- Els enemics i Bill només es mouen en rondes parelles (per defecte).
+- Màxim 1000 ordres per ronda, o el programa s'avorta.
 
 <a id="jugar"></a>
-<img src="assets/h-jugar.png" alt="02 · Com jugar" width="100%">
+<img src="assets/h-jugar.png" alt="02 · Executar" width="100%">
 
-**Requisits:** `g++` recent, `make` i un navegador modern.
+Necessito `g++`, `make` i un navegador.
 
-**1. Copia els objectes precompilats per al teu sistema**
-
-<details open>
-<summary>🐧 Linux x86-64 (el cas habitual)</summary>
+**Primer cop**: copiar els objectes precompilats segons el sistema.
 
 ```bash
-cp AIDummy.o.Linux64 AIDummy.o
-cp Board.o.Linux64 Board.o
+# Linux x86-64
+cp AIDummy.o.Linux64 AIDummy.o && cp Board.o.Linux64 Board.o
+
+# Linux ARM64
+cp AIDummy.o.Linux-aarch64 AIDummy.o && cp Board.o.Linux-aarch64 Board.o
+
+# macOS
+cp AIDummy.o.macOS-$(uname -m) AIDummy.o && cp Board.o.macOS-$(uname -m) Board.o
 ```
-</details>
 
-<details>
-<summary>🐧 Linux ARM64 (p. ex. WSL amb Snapdragon)</summary>
-
-```bash
-cp AIDummy.o.Linux-aarch64 AIDummy.o
-cp Board.o.Linux-aarch64 Board.o
-```
-</details>
-
-<details>
-<summary>🍎 macOS</summary>
-
-```bash
-cp AIDummy.o.macOS-$(uname -m) AIDummy.o
-cp Board.o.macOS-$(uname -m) Board.o
-```
-</details>
-
-**2. Compila el joc i tots els jugadors**
+**Compilar** el joc i tots els `AI*.cc`:
 
 ```bash
 make all
 ```
 
-**3. Juga una partida**
+**Jugar** una partida (seed 30, quatre Demo):
 
 ```bash
 ./Game Demo Demo Demo Demo -s 30 -i default.cnf -o default.res
 ```
 
-| Opció | Significat |
-|---|---|
-| `-s 30` | llavor aleatòria |
-| `-i default.cnf` | configuració i tauler |
-| `-o default.res` | fitxer de sortida |
+**Veure-la**: obrir `viewer.html` al navegador i carregar `default.res`.
 
-**4. Mira-la:** obre `viewer.html` al navegador i carrega `default.res`.
+Altres comandes que em serviran:
 
 ```bash
-./Game --help    # tots els paràmetres
-./Game --list    # jugadors reconeguts
-make clean       # neteja executable i objectes
+./Game --help    # paràmetres
+./Game --list    # noms de jugadors reconeguts
+make clean       # tornar a començar
 ```
 
 <a id="jugador"></a>
-<img src="assets/h-jugador.png" alt="03 · Crea el teu jugador" width="100%">
+<img src="assets/h-jugador.png" alt="03 · El meu jugador" width="100%">
 
-1. Copia la plantilla: `cp AINull.cc AIHattori.cc`
-2. Canvia el nom dins del fitxer:
-   ```cpp
-   #define PLAYER_NAME Hattori
-   ```
-   El nom ha de ser **únic, no ofensiu i de màxim 12 caràcters**.
-3. Implementa el mètode `play()`, que es crida a cada ronda i dona les ordres.
-4. **No toquis** `factory()` ni l'última línia del fitxer.
+1. `cp AINull.cc AI<Nom>.cc`
+2. Canviar `#define PLAYER_NAME Null` pel meu nom: únic, no ofensiu, màxim 12 caràcters.
+3. Programar dins de `play()`. Aquest és el punt d'entrada; puc afegir atributs i mètodes auxiliars a la classe.
+4. No tocar `factory()` ni l'última línia del fitxer.
 
-| Fitxer | Per a què serveix |
-|---|---|
-| `State.hh` | consultar l'estat del joc |
-| `Action.hh` | donar ordres a les unitats |
-| `Structs.hh` | estructures de dades útils |
-| `Settings.hh` | paràmetres del joc |
-| `Player.hh` | mètode `me()` |
-| `Random.hh` | nombres aleatoris |
-| `AIDemo.cc` | jugador d'exemple |
-
-> [!NOTE]
-> El resum complet de l'API és a `api.pdf`.
+Capçaleres que he de tenir a mà: `State.hh` (estat), `Action.hh` (ordres), `Structs.hh`, `Settings.hh` (paràmetres), `Player.hh` (`me()`), `Random.hh`. L'exemple és `AIDemo.cc` i el resum de l'API, `api.pdf`.
 
 <a id="enviar"></a>
-<img src="assets/h-enviar.png" alt="04 · Envia'l al jutge" width="100%">
+<img src="assets/h-enviar.png" alt="04 · Abans d'enviar" width="100%">
 
-Puja'l a **[games.jutge.org](https://games.jutge.org)** amb les teves credencials de Jutge.org.
+Es puja a [games.jutge.org](https://games.jutge.org) amb les credencials de Jutge.org. Revisar abans:
 
-> [!WARNING]
-> L'enviament s'executa en un entorn segur amb aquestes restriccions:
-> - Tot el codi en **un sol fitxer** (`AIHattori.cc`)
-> - **Cap variable global** (usa atributs de la classe)
-> - Només biblioteques estàndard; sense fitxers, threads ni crides a sistema
-> - CPU i memòria **limitades**
-> - **No escriguis** a `cout`, `cerr` ni llegeixis de `cin` (treu els `cerr` de depuració!)
-> - Màxim **1000 ordres per ronda**
-> - Un cop un jugador venç el Dummy, **el seu nom queda bloquejat**: per enviar més versions, canvia'l (p. ex. `Hattori2`)
+- [ ] Tot el codi està en un sol fitxer
+- [ ] Cap variable global (tot dins de la classe)
+- [ ] Només biblioteques estàndard, sense fitxers ni threads
+- [ ] No escric a `cout`, `cerr` ni llegeixo de `cin` (he tret els `cerr` de depuració)
+- [ ] El nom és únic i té com a màxim 12 caràcters
+- [ ] Compila net i he fet una partida local contra Demo
+- [ ] No emeto més de 1000 ordres per ronda
+- [ ] Vaig bé de temps de CPU
+
+Per qualificar-me haig de passar tres comprovacions: que compili, que una partida amb quatre còpies meves no avorti i que **guanyi quatre partides contra tres Dummies**. Un cop guanya el Dummy, el nom queda bloquejat: les versions noves necessiten un nom diferent (`Nom2`, `Nom3`...).
 
 <a id="fases"></a>
-<img src="assets/h-fases.png" alt="05 · Fases" width="100%">
+<img src="assets/h-fases.png" alt="05 · Calendari" width="100%">
 
-```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#FFCD00','primaryTextColor':'#0C0C0E','primaryBorderColor':'#0C0C0E','lineColor':'#E11D2E','fontFamily':'Inter, Arial, sans-serif'}}}%%
-flowchart LR
-    A["🧪 Qualificació<br/>guanya 4 partides al Dummy"] --> B["⚔️ Eliminatòria<br/>cada ronda cau un jugador"]
-    B --> C["🏆 Gran Final<br/>4 semifinals + final"]
-```
+| Quan | Què passa |
+|---|---|
+| Diumenge 6 des, 21:00 | Últim moment per tenir un jugador acceptat |
+| Dilluns 7 des | Comença l'eliminatòria |
+| Dimecres 16 des, 19:00 | Gran Final, Sala d'Actes de la FIB |
 
-| Fase | Què cal fer | Data |
-|---|---|---|
-| 🧪 **Qualificació** | Compilar, sobreviure a una partida amb 4 còpies de tu i **guanyar 4 partides contra 3 Dummies** | fins al **diumenge 6 des, 21:00** |
-| ⚔️ **Eliminatòria** | Rondes de grups de 4; se salva qui supera 2 dels 3 rivals. Com més duris, més nota | des del **7 de desembre** |
-| 🏆 **Gran Final** | Els 11 millors d'EDA (+5 d'Algorísmia). 4/3/2/1 punts per partida | **dimecres 16 des, 19:00**, Sala d'Actes de la FIB |
-
-Qualificar-se garanteix **mínim 5 dels 10 punts**; no qualificar-se, 0. Recorda escollir el teu representant a la pestanya *Players* **abans** de l'eliminatòria.
+- Qualificat = mínim 5 punts de 10. No qualificat = 0 en aquesta part.
+- Eliminatòria: es forma un grup de 4 a l'atzar cada ronda i se salva qui supera 2 dels 3 rivals. Com més tard m'eliminin, més nota.
+- Els 11 últims d'EDA tenen la nota màxima i van a la final (amb 5 d'Algorísmia). Cada partida dona 4, 3, 2 o 1 punts.
+- Cal triar el representant a la pestanya *Players* **abans** de l'inici. Puc canviar-lo i enviar versions noves mentre no estigui eliminat.
+- Si el Dummy es queda curt, els professors el poden canviar sense avís.
 
 <a id="normes"></a>
-<img src="assets/h-normes.png" alt="06 · Consells i normativa" width="100%">
+<img src="assets/h-normes.png" alt="06 · Notes i normes" width="100%">
 
-- 🎯 Primer, derrota el Dummy. Després ja pensaràs en els companys.
-- 🧩 Comença amb estratègies simples, amb funcions auxiliars petites i provades.
-- 🔁 Compila i prova sovint; guarda versions antigues i fes-les lluitar entre elles.
-- ⏱️ Vigila el temps de CPU.
-- 👀 Observa partides d'altres per aprendre'n les estratègies.
-- ⏳ **No esperis a l'últim minut** per enviar: el servidor s'embussa.
+**Per on començar**
 
-> [!CAUTION]
-> La pràctica és **individual**. No donis ni demanis codi, ni tan sols una versió antiga (només es poden compartir arxius objecte `.o`). **Està prohibit usar IA per implementar jugadors.** El plagi implica un **0 a tota l'assignatura** per a tots els involucrats, tant qui copia com qui facilita el codi.
+- Primer guanyar el Dummy. La resta, després.
+- Estratègies simples i fàcils de depurar; funcions auxiliars petites i provades.
+- Compilar i provar sovint. Guardar versions antigues i fer-les lluitar contra la nova.
+- Mirar partides dels altres i aprendre'n.
+- No esperar l'últim minut: el servidor s'embussa i pot ser massa tard.
 
-Si hi ha cap diferència entre la documentació i el codi del joc, **preval el codi**.
+**Normes**
 
-<div align="center">
-<sub>Fet amb ☕ per a l'assignatura EDA · FIB-UPC</sub>
-</div>
+La pràctica és individual. No donar ni demanar codi, ni una versió antiga (només es poden compartir `.o`). No es pot fer servir IA per implementar jugadors. Qualsevol plagi suposa un 0 a tota l'assignatura per a tots els implicats. Si el codi del joc i la documentació no coincideixen, preval el codi.
