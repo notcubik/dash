@@ -23,9 +23,6 @@ La Beatrix Kiddo es desperta després de quatre anys en coma amb una sola idea: 
 
 Tu programes el **cervell** d'una d'elles: a cada ronda, el teu codi decideix què fa cada unitat.
 
-<div align="center">
-<img src="assets/llista.png" alt="La llista: O-Ren Ishii, Vernita Green, Budd, Elle Driver i Bill" width="520">
-</div>
 
 | | Element | Què fa |
 |---|---|---|
